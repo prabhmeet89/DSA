@@ -1,31 +1,35 @@
 class Solution {
 public:
     vector<long long> resultArray(vector<int>& nums, int k) {
-        vector<long long> ans(k, 0);
 
-        unordered_map<int, long long> dp, next;
+        vector<long long> result(k, 0);
+        vector<long long> dp(k, 0);
 
-        for (int num : nums) {
+        for(int num : nums) {
+
+            vector<long long> newdp(k, 0);
+
             int x = num % k;
-            next.clear();
 
-            // New subarray
-            next[x]++;
+            // Start a new subarray
+            newdp[x] = 1;
 
             // Extend previous subarrays
-            for (auto &[r, cnt] : dp) {
-                int rem = (long long)r * x % k;
-                next[rem] += cnt;
+            for(int r = 0; r < k; r++) {
+
+                int newRemainder = (r * x) % k;
+
+                newdp[newRemainder] += dp[r];
             }
 
-            // Add to answer
-            for (auto &[r, cnt] : next) {
-                ans[r] += cnt;
+            // Add current subarrays to answer
+            for(int r = 0; r < k; r++) {
+                result[r] += newdp[r];
             }
 
-            dp.swap(next);
+            dp = newdp;
         }
 
-        return ans;
+        return result;
     }
 };
