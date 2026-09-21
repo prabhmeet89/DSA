@@ -1,35 +1,30 @@
 class Solution {
 public:
     vector<long long> resultArray(vector<int>& nums, int k) {
-
-        vector<long long> result(k, 0);
+        vector<long long> ans(k, 0);
         vector<long long> dp(k, 0);
 
-        for(int num : nums) {
-
-            vector<long long> newdp(k, 0);
-
+        for (int num : nums) {
             int x = num % k;
 
-            // Start a new subarray
-            newdp[x] = 1;
+            vector<long long> next(k, 0);
 
-            // Extend previous subarrays
-            for(int r = 0; r < k; r++) {
+            // Start new subarray
+            next[x]++;
 
-                int newRemainder = (r * x) % k;
-
-                newdp[newRemainder] += dp[r];
+            // Extend old subarrays
+            for (int r = 0; r < k; r++) {
+                next[(r * x) % k] += dp[r];
             }
 
             // Add current subarrays to answer
-            for(int r = 0; r < k; r++) {
-                result[r] += newdp[r];
+            for (int r = 0; r < k; r++) {
+                ans[r] += next[r];
             }
 
-            dp = newdp;
+            dp.swap(next);
         }
 
-        return result;
+        return ans;
     }
 };
