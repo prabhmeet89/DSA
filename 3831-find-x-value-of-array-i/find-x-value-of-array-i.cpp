@@ -9,15 +9,17 @@ public:
 
             vector<long long> next(k, 0);
 
-            // Start new subarray
+            // New subarray
             next[x]++;
 
-            // Extend old subarrays
+            // Extend previous subarrays
             for (int r = 0; r < k; r++) {
-                next[(r * x) % k] += dp[r];
+                if (dp[r] == 0) continue;
+
+                next[(long long)r * x % k] += dp[r];
             }
 
-            // Add current subarrays to answer
+            // Add to answer
             for (int r = 0; r < k; r++) {
                 ans[r] += next[r];
             }
