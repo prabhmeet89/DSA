@@ -8,7 +8,6 @@ public:
         }
 
         int fact = 1;
-
         for(int i = 2; i <= n - 1; i++) {
             fact *= i;
         }
@@ -20,9 +19,9 @@ public:
         string left = str.substr(0, idx);
         string right = str.substr(idx + 1);
 
-        k = k % fact;
+        int q = k % fact;
 
-        return helper(left + right, k, ans + ch);
+        return helper(left + right, q, ans + ch);
     }
 
     string getPermutation(int n, int k) {
@@ -32,7 +31,7 @@ public:
             str += to_string(i);
         }
 
-        k--;  // convert to 0-indexed
+        k--;
 
         return helper(str, k, "");
     }
