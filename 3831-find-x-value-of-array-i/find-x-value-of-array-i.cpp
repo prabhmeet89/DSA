@@ -2,26 +2,25 @@ class Solution {
 public:
     vector<long long> resultArray(vector<int>& nums, int k) {
         vector<long long> ans(k, 0);
-        vector<long long> dp(k, 0);
+
+        unordered_map<int, long long> dp, next;
 
         for (int num : nums) {
             int x = num % k;
-
-            vector<long long> next(k, 0);
+            next.clear();
 
             // New subarray
             next[x]++;
 
             // Extend previous subarrays
-            for (int r = 0; r < k; r++) {
-                if (dp[r] == 0) continue;
-
-                next[(long long)r * x % k] += dp[r];
+            for (auto &[r, cnt] : dp) {
+                int rem = (long long)r * x % k;
+                next[rem] += cnt;
             }
 
             // Add to answer
-            for (int r = 0; r < k; r++) {
-                ans[r] += next[r];
+            for (auto &[r, cnt] : next) {
+                ans[r] += cnt;
             }
 
             dp.swap(next);
